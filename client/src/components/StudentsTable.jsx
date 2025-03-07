@@ -97,6 +97,71 @@ const StudentsTable = ({ search }) => {
           <FaPlus className="mr-2" /> Add Student
         </button>
       </div>
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg max-w-md w-full">
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                name="name"
+                value={newStudent.name}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-lg p-2 mb-4"
+                placeholder="Student Name"
+                required
+              />
+
+              <select
+                name="cohort"
+                value={newStudent.cohort}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-lg p-2 mb-4"
+              >
+                <option value="AY 2024-25">AY 2024-25</option>
+                <option value="AY 2023-24">AY 2023-24</option>
+              </select>
+
+              <select
+                name="status"
+                value={newStudent.status}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-lg p-2 mb-4"
+              >
+                <option value="offline">Offline</option>
+                <option value="online">Online</option>
+              </select>
+
+              <select
+                name="courses"
+                multiple
+                onChange={handleCourseChange}
+                className="w-full border border-gray-300 rounded-lg p-2 mb-4"
+              >
+                <option value="CBSE 9 Science">CBSE 9 Science</option>
+                <option value="CBSE 9 Math">CBSE 9 Math</option>
+                <option value="CBSE 10 Science">CBSE 10 Science</option>
+                <option value="CBSE 10 Math">CBSE 10 Math</option>
+              </select>
+
+              <div className="flex justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="px-4 py-2 border rounded-lg"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+                >
+                  Add Student
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       <div className="mt-4">
         {status === "loading" ? (
@@ -105,7 +170,7 @@ const StudentsTable = ({ search }) => {
           </div>
         ) : (
           <>
-            <div className="block md:hidden grid grid-cols-1 gap-4">
+            <div className=" md:hidden grid grid-cols-1 gap-4">
               {filteredStudents.map((student, index) => (
                 <div key={index} className="border p-3 rounded-lg shadow-md">
                   <p>
