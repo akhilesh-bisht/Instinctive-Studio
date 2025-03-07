@@ -36,6 +36,8 @@ const StudentsTable = ({ search }) => {
     setNewStudent((prev) => ({ ...prev, courses: selectedCourses }));
   };
 
+  // submit form data
+
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(addUser(newStudent));
@@ -49,6 +51,8 @@ const StudentsTable = ({ search }) => {
       courses: [],
     });
   };
+
+  // filtter students based on search, cohort and course
 
   const filteredStudents = students.filter((student) => {
     const matchesSearch = student.name
