@@ -98,122 +98,89 @@ const StudentsTable = ({ search }) => {
         </button>
       </div>
 
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center backdrop-blur-sm px-4">
-          <div className="bg-white p-6 rounded-xl shadow-2xl w-full max-w-sm sm:max-w-md">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">
-              Add Student
-            </h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <input
-                type="text"
-                name="name"
-                value={newStudent.name}
-                onChange={handleChange}
-                className="w-full border p-2 rounded-lg"
-                placeholder="Student Name"
-                required
-              />
-              <select
-                name="cohort"
-                value={newStudent.cohort}
-                onChange={handleChange}
-                className="w-full border p-2 rounded-lg"
-                required
-              >
-                <option value="AY 2024-25">AY 2024-25</option>
-                <option value="AY 2023-24">AY 2023-24</option>
-              </select>
-              <select
-                name="status"
-                value={newStudent.status}
-                onChange={handleChange}
-                className="w-full border p-2 rounded-lg"
-                required
-              >
-                <option value="offline">Offline</option>
-                <option value="online">Online</option>
-              </select>
-              <select
-                name="courses"
-                multiple
-                onChange={handleCourseChange}
-                className="w-full border p-2 rounded-lg"
-                required
-              >
-                <option value="CBSE 9 Science">CBSE 9 Science</option>
-                <option value="CBSE 9 Math">CBSE 9 Math</option>
-                <option value="CBSE 10 Science">CBSE 10 Science</option>
-                <option value="CBSE 10 Math">CBSE 10 Math</option>
-              </select>
-              <div className="flex justify-end gap-2">
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 border rounded-lg"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={() => alert("Student Added")}
-                  type="submit"
-                  className="px-4 py-2 bg-blue-500 text-white rounded-lg"
-                >
-                  Add Student
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      <div className="overflow-x-auto mt-4">
+      <div className="mt-4">
         {status === "loading" ? (
           <div className="flex justify-center py-6">
             <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
           </div>
         ) : (
-          <table className="w-full border-collapse min-w-[600px] text-sm">
-            <thead>
-              <tr className="bg-white">
-                <th className="p-2 text-left">Name</th>
-                <th className="p-2 text-left">Cohort</th>
-                <th className="p-2 text-left">Courses</th>
-                <th className="p-2 text-left">Joined</th>
-                <th className="p-2 text-left">Last Login</th>
-                <th className="p-2 text-left">Status</th>
-              </tr>
-            </thead>
-            <tbody>
+          <>
+            <div className="block md:hidden grid grid-cols-1 gap-4">
               {filteredStudents.map((student, index) => (
-                <tr
-                  key={index}
-                  className="border-t font-medium border-gray-200"
-                >
-                  <td className="p-2">{student.name}</td>
-                  <td className="p-2">{student.cohort}</td>
-                  <td className="p-2">
+                <div key={index} className="border p-3 rounded-lg shadow-md">
+                  <p>
+                    <strong>Name:</strong> {student.name}
+                  </p>
+                  <p>
+                    <strong>Cohort:</strong> {student.cohort}
+                  </p>
+                  <p>
+                    <strong>Courses:</strong>{" "}
                     {student.courses?.join(", ") || "No Courses"}
-                  </td>
-                  <td className="p-2">
+                  </p>
+                  <p>
+                    <strong>Joined:</strong>{" "}
                     {new Date(student.date_joined).toLocaleDateString()}
-                  </td>
-                  <td className="p-2">
+                  </p>
+                  <p>
+                    <strong>Last Login:</strong>{" "}
                     {new Date(student.last_login).toLocaleDateString()}
-                  </td>
-                  <td className="p-2">
-                    <div
-                      className={`w-3 h-3 rounded-full ${
+                  </p>
+                  <p>
+                    <strong>Status:</strong>{" "}
+                    <span
+                      className={`w-3 h-3 rounded-full inline-block ${
                         student.status === "online"
                           ? "bg-green-500"
                           : "bg-red-400"
                       }`}
-                    ></div>
-                  </td>
-                </tr>
+                    ></span>
+                  </p>
+                </div>
               ))}
-            </tbody>
-          </table>
+            </div>
+            <table className="hidden md:table w-full border-collapse min-w-[600px] text-sm">
+              <thead>
+                <tr className="bg-white">
+                  <th className="p-2 text-left">Student Name</th>
+                  <th className="p-2 text-left">Cohort</th>
+                  <th className="p-2 text-left">Courses</th>
+                  <th className="p-2 text-left">Date Joined</th>
+                  <th className="p-2 text-left">Last Login</th>
+                  <th className="p-2 text-left">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredStudents.map((student, index) => (
+                  <tr
+                    key={index}
+                    className="border-t font-medium border-gray-200"
+                  >
+                    <td className="p-2">{student.name}</td>
+                    <td className="p-2">{student.cohort}</td>
+                    <td className="p-2">
+                      {student.courses?.join(", ") || "No Courses"}
+                    </td>
+                    <td className="p-2">
+                      {new Date(student.date_joined).toLocaleDateString()}
+                    </td>
+                    <td className="p-2">
+                      {new Date(student.last_login).toLocaleDateString()}
+                    </td>
+                    <td className="p-2">
+                      <span
+                        className={`w-3 h-3 rounded-full inline-block ${
+                          student.status === "online"
+                            ? "bg-green-500"
+                            : "bg-red-400"
+                        }`}
+                      ></span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </>
         )}
       </div>
     </div>
