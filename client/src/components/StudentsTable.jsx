@@ -94,7 +94,7 @@ const StudentsTable = ({ search }) => {
           onClick={() => setIsModalOpen(true)}
           className="bg-gray-300 rounded-md flex items-center px-3 py-2 text-gray-500 font-semibold text-sm cursor-pointer"
         >
-          <FaPlus className="mr-2" /> Add Student
+          <FaPlus className="mr-2" /> Add new Student
         </button>
       </div>
       {isModalOpen && (
@@ -152,6 +152,7 @@ const StudentsTable = ({ search }) => {
                   Cancel
                 </button>
                 <button
+                  onClick={() => alert("Student Added Successfully")}
                   type="submit"
                   className="px-4 py-2 bg-blue-500 text-white rounded-lg"
                 >
